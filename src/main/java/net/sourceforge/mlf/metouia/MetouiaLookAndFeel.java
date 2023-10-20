@@ -98,6 +98,7 @@ public class MetouiaLookAndFeel extends MetalLookAndFeel
    *
    * @return The Metouia Look and Feel identifier.
    */
+  @Override
   public String getID()
   {
     return "Metouia";
@@ -114,6 +115,7 @@ public class MetouiaLookAndFeel extends MetalLookAndFeel
    *
    * @return The look and feel short name.
    */
+  @Override
   public String getName()
   {
     return "Metouia";
@@ -126,6 +128,7 @@ public class MetouiaLookAndFeel extends MetalLookAndFeel
    *
    * @return The look and feel short description.
    */
+  @Override
   public String getDescription()
   {
     return "Metouia Look and Feel";
@@ -133,10 +136,12 @@ public class MetouiaLookAndFeel extends MetalLookAndFeel
 
   /**
    * If the underlying platform has a "native" look and feel, and this
-   * is an implementation of it, return true.  For example a CDE/Motif
-   * look and implementation would return true when the underlying
-   * platform was Solaris.
+   * is an implementation of it, return true.For example a CDE/Motif
+ look and implementation would return true when the underlying
+ platform was Solaris.
+     * @return 
    */
+  @Override
   public boolean isNativeLookAndFeel()
   {
     return false;
@@ -144,10 +149,12 @@ public class MetouiaLookAndFeel extends MetalLookAndFeel
 
   /**
    * Return true if the underlying platform supports and or permits
-   * this look and feel.  This method returns false if the look
-   * and feel depends on special resources or legal agreements that
-   * aren't defined for the current platform.
+   * this look and feel.This method returns false if the look
+ and feel depends on special resources or legal agreements that
+ aren't defined for the current platform.
+     * @return 
    */
+  @Override
   public boolean isSupportedLookAndFeel()
   {
     return true;
@@ -161,6 +168,7 @@ public class MetouiaLookAndFeel extends MetalLookAndFeel
    *
    * @param table The ui defaults table.
    */
+  @Override
   protected void initClassDefaults(UIDefaults table)
   {
     super.initClassDefaults(table);
@@ -189,6 +197,7 @@ public class MetouiaLookAndFeel extends MetalLookAndFeel
    * Creates the default theme and installs it.
    * The MetouiaDefaultTheme is used as default.
    */
+  @Override
   protected void createDefaultTheme()
   {
     if (!themeHasBeenSet)
@@ -215,6 +224,7 @@ public class MetouiaLookAndFeel extends MetalLookAndFeel
    *
    * @param table The ui defaults table.
    */
+  @Override
   protected void initSystemColorDefaults(UIDefaults table)
   {
     super.initSystemColorDefaults(table);
@@ -228,6 +238,7 @@ public class MetouiaLookAndFeel extends MetalLookAndFeel
    *
    * @param table The ui defaults table.
    */
+  @Override
   protected void initComponentDefaults(UIDefaults table)
   {
     // Let Metal Look and Feel do the basic and complete initializations:
@@ -253,9 +264,9 @@ public class MetouiaLookAndFeel extends MetalLookAndFeel
     table.put("TableHeader.cellBorder", new MetouiaTableHeaderBorder());
 
     // Tweak some subtle values:
-    table.put("SplitPane.dividerSize", new Integer(6));
-    table.put("InternalFrame.paletteTitleHeight", new Integer(13));
-    table.put("InternalFrame.frameTitleHeight", new Integer(21));
+    table.put("SplitPane.dividerSize", 6);
+    table.put("InternalFrame.paletteTitleHeight", 13);
+    table.put("InternalFrame.frameTitleHeight", 21);
     table.put("TabbedPane.contentBorderInsets", new Insets(4, 4, 3,3));
 //    "TabbedPane.contentBorderInsets", tabbedPaneContentBorderInsets,
     table.put("Button.select", metouiaTheme.getPressedBackground());

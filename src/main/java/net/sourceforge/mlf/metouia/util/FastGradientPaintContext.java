@@ -36,15 +36,15 @@ import java.util.WeakHashMap;
 
 public class FastGradientPaintContext implements PaintContext
 {
-  private static WeakHashMap gradientCache = new WeakHashMap();
+  private static final WeakHashMap gradientCache = new WeakHashMap();
 
-  private static LinkedList recentInfos = new LinkedList();
+  private static final LinkedList recentInfos = new LinkedList();
 
-  private GradientInfo info;
+  private final GradientInfo info;
 
-  private int parallelDevicePos;
+  private final int parallelDevicePos;
 
-  private Gradient gradient;
+  private final Gradient gradient;
 
   public FastGradientPaintContext(ColorModel cm, Rectangle r, int sc, int ec,
     boolean ver, boolean asc)
@@ -86,16 +86,19 @@ public class FastGradientPaintContext implements PaintContext
     }
   }
 
+  @Override
   public void dispose()
   {
     gradient.dispose();
   }
 
+  @Override
   public ColorModel getColorModel()
   {
     return info.model;
   }
 
+  @Override
   public synchronized Raster getRaster(int x, int y, int w, int h)
   {
     if (info.isVertical)
@@ -108,7 +111,7 @@ public class FastGradientPaintContext implements PaintContext
 
 class Gradient
 {
-  private GradientInfo info;
+  private final GradientInfo info;
 
   private int perpendicularLength = 0;
 
@@ -127,7 +130,7 @@ class Gradient
     if (raster == null || (this.perpendicularLength < perpendicularLength))
       createRaster(perpendicularLength);
 
-    Integer key = new Integer(parallelPos);
+    Integer key = parallelPos;
     Object o = childRasterCache.get(key);
     if (o != null)
       return (Raster)o;
@@ -222,6 +225,7 @@ class GradientInfo
 
   boolean isAscending;
 
+  @Override
   public boolean equals(Object o)
   {
     // Fix for BUG 528602:
@@ -240,14 +244,10 @@ class GradientInfo
     }
   }
 
+  @Override
   public int hashCode()
   {
     return parallelLength;
   }
 
-  public static void main(String[] args)
-  {
-    GradientInfo info = new GradientInfo();
-    System.out.println("oops " + info.equals(null));
-  }
 }
