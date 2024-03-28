@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.blazartech</groupId>
     <artifactId>LookAndFeelManager</artifactId>
-    <version>1.31-RELEASE</version>
+    <version>1.32-RELEASE</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,7 +19,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>6.1.4</version>
+            <version>6.1.5</version>
         </dependency>
         <dependency>
             <groupId>com.jgoodies</groupId>
@@ -41,7 +41,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>3.2.2</version>
+            <version>3.2.4</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
