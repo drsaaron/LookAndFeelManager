@@ -3,23 +3,24 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.blazartech</groupId>
     <artifactId>LookAndFeelManager</artifactId>
-    <version>1.42-RELEASE</version>
+    <version>1.43-RELEASE</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>21</maven.compiler.release>
     </properties>
     
+    <parent>
+        <groupId>com.blazartech</groupId>
+        <artifactId>blazarjavaparent</artifactId>
+        <version>1.11-RELEASE</version>
+    </parent>
+    
     <dependencies>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>2.1.0-alpha1</version>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>7.0.0-M6</version>
         </dependency>
         <dependency>
             <groupId>com.jgoodies</groupId>
@@ -41,7 +42,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>3.5.3</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -62,7 +62,6 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
-            <version>5.13.2</version>
         </dependency>
         
         <!-- include junit vintage in order to avoid some exceptions when 
@@ -72,7 +71,6 @@
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
             <scope>test</scope>
-            <version>5.13.2</version>
         </dependency>
 
     </dependencies>
@@ -94,26 +92,7 @@
     
     <build>
         <plugins>
-            <plugin>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>3.1.1</version>
-                <executions>
-                    <execution>
-                        <id>default-deploy</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>deploy</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            
-            <!-- plugin to make junit5 work -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.1.2</version>
-            </plugin>
+
         </plugins>
     </build>
 
