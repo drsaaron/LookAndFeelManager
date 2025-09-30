@@ -3,17 +3,17 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.blazartech</groupId>
     <artifactId>LookAndFeelManager</artifactId>
-    <version>1.44-RELEASE</version>
+    <version>1.45-RELEASE</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>21</maven.compiler.release>
+        <maven.compiler.release>25</maven.compiler.release>
     </properties>
     
     <parent>
         <groupId>com.blazartech</groupId>
         <artifactId>blazarjavaparent</artifactId>
-        <version>1.12-RELEASE</version>
+        <version>1.13-RELEASE</version>
     </parent>
     
     <dependencies>
