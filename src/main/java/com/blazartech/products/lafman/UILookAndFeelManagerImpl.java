@@ -32,13 +32,13 @@ import org.slf4j.LoggerFactory;
 public class UILookAndFeelManagerImpl implements UILookAndFeelManager {
 
     public static final String LAF_KEY = "LookAndFeel";
-    
+
     public UILookAndFeelManagerImpl() {
     }
 
     private static final Logger logger = LoggerFactory.getLogger(UILookAndFeelManagerImpl.class);
 
-    private String currentLookAndFeelName ;    
+    private String currentLookAndFeelName;
 
     /**
      * Get the value of currentLookAndFeelName
@@ -65,45 +65,50 @@ public class UILookAndFeelManagerImpl implements UILookAndFeelManager {
     public void initializePreferencesAndMenu(JMenu preferencesMenu, ButtonGroup buttonGroup, Preferences preferences, Component gui) {
         final Preferences appPreferences = preferences;
         final Component window = gui;
-        
+
         String currentLAF = appPreferences.get(LAF_KEY, UIManager.getLookAndFeel().getName());
         logger.info("currentLAF = " + currentLAF);
         setCurrentLookAndFeelClassName(currentLAF);
         try {
             UIManager.setLookAndFeel(getLookAndFeelClass(currentLAF));
             SwingUtilities.updateComponentTreeUI(gui);
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException dfslaf) {}
-        getInstalledLookAndFeels().stream().map((lafType) -> lafType).map((key) -> {
-            JRadioButtonMenuItem typeMenu = new JRadioButtonMenuItem();
-            typeMenu.setText(key);
-            typeMenu.setSelected(key.equals(currentLAF));
-            buttonGroup.add(typeMenu);
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException dfslaf) {
+        }
+        
+        getInstalledLookAndFeels().stream()
+                .map((lafType) -> lafType)
+                .map((key) -> {
+                    JRadioButtonMenuItem typeMenu = new JRadioButtonMenuItem();
+                    typeMenu.setText(key);
+                    typeMenu.setSelected(key.equals(currentLAF));
+                    buttonGroup.add(typeMenu);
 
-            // add the event handler.
-            typeMenu.addActionListener((ActionEvent evt) -> {
-                String className = getLookAndFeelClass(key);
-                try {
-                    UIManager.setLookAndFeel(className);
-                    setCurrentLookAndFeelClassName(className);
-                    SwingUtilities.updateComponentTreeUI(window);
-                    appPreferences.put(LAF_KEY, key);
-                } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException uslaf) {}
-            });
-            return typeMenu;            
-        }).forEachOrdered((typeMenu) -> {
-            // add it to the menu.
-            preferencesMenu.add(typeMenu);
-        });
+                    // add the event handler.
+                    typeMenu.addActionListener((ActionEvent evt) -> {
+                        String className = getLookAndFeelClass(key);
+                        try {
+                            UIManager.setLookAndFeel(className);
+                            setCurrentLookAndFeelClassName(className);
+                            SwingUtilities.updateComponentTreeUI(window);
+                            appPreferences.put(LAF_KEY, key);
+                        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException uslaf) {
+                        }
+                    });
+                    return typeMenu;
+                })
+                .forEachOrdered((typeMenu) -> {
+                    // add it to the menu.
+                    preferencesMenu.add(typeMenu);
+                });
     }
 
     @Override
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
     }
-    
-    
+
     public Map<String, String> installedLAFMap = new HashMap<>();
-    
+
     private Collection<String> lafClassNames;
     public static final String PROP_LAFCLASSNAMES = "lafClassNames";
 
@@ -126,7 +131,7 @@ public class UILookAndFeelManagerImpl implements UILookAndFeelManager {
         this.lafClassNames = lafClassNames;
         propertyChangeSupport.firePropertyChange(PROP_LAFCLASSNAMES, oldLafClassNames, lafClassNames);
     }
-    
+
     private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
     /**
