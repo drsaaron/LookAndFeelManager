@@ -61,6 +61,28 @@ public class UILookAndFeelManagerImpl implements UILookAndFeelManager {
         propertyChangeSupport.firePropertyChange(PROP_CURRENTLOOKANDFEELNAME, oldCurrentLookAndFeelName, currentLookAndFeelName);
     }
 
+    public void menuItemActionHandler(ActionEvent evt, String key, Component window, Preferences appPreferences) {
+        String className = getLookAndFeelClass(key);
+        try {
+            UIManager.setLookAndFeel(className);
+            setCurrentLookAndFeelClassName(className);
+            SwingUtilities.updateComponentTreeUI(window);
+            appPreferences.put(LAF_KEY, key);
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException uslaf) {
+        }
+    }
+
+    private JRadioButtonMenuItem buildMenuItem(String key, Component window, ButtonGroup buttonGroup, String currentLAF, Preferences appPreferences) {
+        JRadioButtonMenuItem typeMenu = new JRadioButtonMenuItem();
+        typeMenu.setText(key);
+        typeMenu.setSelected(key.equals(currentLAF));
+        buttonGroup.add(typeMenu);
+
+        // add the event handler.
+        typeMenu.addActionListener(evt -> menuItemActionHandler(evt, key, window, appPreferences));
+        return typeMenu;
+    }
+
     @Override
     public void initializePreferencesAndMenu(JMenu preferencesMenu, ButtonGroup buttonGroup, Preferences preferences, Component gui) {
         final Preferences appPreferences = preferences;
@@ -74,32 +96,10 @@ public class UILookAndFeelManagerImpl implements UILookAndFeelManager {
             SwingUtilities.updateComponentTreeUI(gui);
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException dfslaf) {
         }
-        
-        getInstalledLookAndFeels().stream()
-                .map((lafType) -> lafType)
-                .map((key) -> {
-                    JRadioButtonMenuItem typeMenu = new JRadioButtonMenuItem();
-                    typeMenu.setText(key);
-                    typeMenu.setSelected(key.equals(currentLAF));
-                    buttonGroup.add(typeMenu);
 
-                    // add the event handler.
-                    typeMenu.addActionListener((ActionEvent evt) -> {
-                        String className = getLookAndFeelClass(key);
-                        try {
-                            UIManager.setLookAndFeel(className);
-                            setCurrentLookAndFeelClassName(className);
-                            SwingUtilities.updateComponentTreeUI(window);
-                            appPreferences.put(LAF_KEY, key);
-                        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException uslaf) {
-                        }
-                    });
-                    return typeMenu;
-                })
-                .forEachOrdered((typeMenu) -> {
-                    // add it to the menu.
-                    preferencesMenu.add(typeMenu);
-                });
+        getInstalledLookAndFeels().stream()
+                .map(key -> buildMenuItem(key, window, buttonGroup, currentLAF, appPreferences))
+                .forEachOrdered(typeMenu -> preferencesMenu.add(typeMenu));
     }
 
     @Override

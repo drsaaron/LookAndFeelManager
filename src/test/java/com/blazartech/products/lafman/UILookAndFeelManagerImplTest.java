@@ -141,6 +141,4 @@ public class UILookAndFeelManagerImplTest {
         assertNotEquals(null, result);
     }
 
-
-    
 }
